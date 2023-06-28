@@ -75,7 +75,7 @@ def run_fio(fio_exe, device, max_numjobs, cleanup, outdir, bs, mode, runtime, fi
                 for line in config:
                     f.write(line+'\n')
 
-        fio_cmd = "{fio_exe} --numjobs={numjobs} --output-format=json --output={config_fn}.output.json {config_fn}".format(
+        fio_cmd = "{fio_exe} --numjobs={numjobs} --output={config_fn}.output.json {config_fn} --output-format=json+".format(
                 fio_exe=fio_exe,
                 numjobs=numjobs,
                 config_fn=config_fn
