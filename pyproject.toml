@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "ceph-perftest"
+version = "0.1.0"
+description = ""
+authors = ["Matt Anson <matta@stackhpc.com>", "Stig Telfer <stig@stackhpc.com>"]
+readme = "README.md"
+packages = [{include = "ceph_perftest"}]
+
+[tool.poetry.scripts]
+ceph-perftest = "ceph_perftest.cli:cli"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+plotnine = "^0.12.1"
+binary = "^1.0.0"
+matplotlib = "^3.7.1"
+click = "^8.1.3"
+psutil = "^5.9.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
