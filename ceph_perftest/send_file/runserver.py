@@ -41,7 +41,7 @@ def stop_sendfile_server():
 
     for pidfile in temp_pidfiles:
         with open(pidfile, 'r') as f:
-            pid = int(f.read())
+            pid = int(f.read().replace('\00', ''))
             if psutil.pid_exists(pid):
                 if "iperf3" in psutil.Process(pid).exe():
                     os.kill(pid, signal.SIGKILL)
