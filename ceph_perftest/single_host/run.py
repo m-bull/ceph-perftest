@@ -50,12 +50,12 @@ def check_block_devices(devices):
                 device=device)
                 )
 
-def run_fio(fio_exe, devices, cleanup, outdir, bs, mode, runtime, filesize):
+def run_fio(fio_exe, input_devices, cleanup, outdir, bs, mode, runtime, filesize):
     summary_output = []
-    total_disks = len(devices)
+    total_disks = len(input_devices)
     for idx in range(1, 1 + total_disks):
         count_output = {}
-        devices = devices[:idx]
+        devices = input_devices[:idx]
         config_fn = PurePath(
             outdir
             ).joinpath(
@@ -95,7 +95,7 @@ def run_fio(fio_exe, devices, cleanup, outdir, bs, mode, runtime, filesize):
             for line in config:
                 f.write(line+'\n')
         
-        fio_cmd = "{fio_exe} --output-format=json --output={config_fn}.output.json {config_fn}".format(
+        fio_cmd = "{fio_exe} --output={config_fn}.output.json {config_fn} --output-format=json+".format(
                 fio_exe=fio_exe,
                 config_fn=config_fn,
                 )
@@ -140,7 +140,7 @@ def run_fio(fio_exe, devices, cleanup, outdir, bs, mode, runtime, filesize):
                         }
                     )
 
-        for device in devices:
+        for device in input_devices:
             if device in count_output:
                 bw, _ = convert_units(
                         count_output[device]['bw'], 
