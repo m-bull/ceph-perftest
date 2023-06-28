@@ -177,14 +177,14 @@ def server(ctx):
               default=5201,
               help="First iperf3 server port (assumed consecutive after this) [Default: 5201]." )
 @click.pass_context
-def sendfile_server_start(ctx, device_count, port_start):
+def sendfile_server_start(ctx, server_count, port_start):
     """Start a series of iperf3 servers listening on consecutive ports.
 
     \b
     SERVER_COUNT: Number of iperf3 servers to start.
     """
     iperf_exe = is_exe("iperf3")
-    run_sendfile_server(iperf_exe, device_count, port_start)
+    run_sendfile_server(iperf_exe, server_count, port_start)
 
 @server.command('stop')
 @click.pass_context
