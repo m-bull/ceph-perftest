@@ -104,17 +104,18 @@ def aggregate_performance(ctx, fio_output_json, outdir, output_file_prefix):
               default='2G',
               help='fio filesize parameter [Default: 2G].')
 @click.pass_context
-def single_device(ctx, device, max_numjobs, cleanup,
+def single_device(ctx, block_device, max_numjobs, cleanup,
                   outdir, bs, mode, runtime, filesize):
     """
     Use fio to test a single device with multiple jobs.
+    
     \b
     BLOCK_DEVICE: The path to the block device to test.
     MAX_NUMJOBS: Maximum number of fio jobs to test.
     """
 
     fio_exe = is_exe("fio")
-    run_single_device(fio_exe, device, max_numjobs, cleanup, 
+    run_single_device(fio_exe, block_device, max_numjobs, cleanup, 
                           outdir, bs, mode, runtime, filesize)
 
 @cli.command()
