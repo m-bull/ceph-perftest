@@ -224,7 +224,7 @@ def sendfile_server_start(ctx):
 @click.pass_context
 def sendfile_client(ctx, iperf_server, device, port_start, cleanup, outdir, runtime, network_line_rate):
     """Plot the aggregated network read bandwidth of a set
-    of block devices, such as Ceph OSDs, using iperf3.
+    of block devices using iperf3.
 
     \b
     IPERF_SERVER: Machine running iperf3 in server mode. to start

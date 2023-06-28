@@ -183,7 +183,7 @@ def plot_bar(summary, plot, devices, outdir, bs, mode):
         )
     )
     ax.set_ylabel(plot['y_label'])
-    ax.set_xlabel('OSDs active')
+    ax.set_xlabel('Devices active')
     ax.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
     fig.savefig(
         PurePath(
