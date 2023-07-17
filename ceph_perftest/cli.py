@@ -119,7 +119,7 @@ def single_device(ctx, block_device, max_numjobs, cleanup,
                           outdir, bs, mode, runtime, filesize)
 
 @cli.command()
-@click.argument('block_devices',
+@click.argument('block_device',
                 type=click.Path(exists=True, resolve_path=True),
                 nargs=-1)
 @click.option('-c', '--cleanup',
@@ -146,12 +146,22 @@ def single_device(ctx, block_device, max_numjobs, cleanup,
               default='2G',
               help='fio filesize parameter [Default: 2G].')
 @click.pass_context
-def single_host(ctx, block_devices, cleanup, outdir, bs, mode, runtime, filesize):
+def single_host(ctx, block_device, cleanup, outdir, bs, mode, runtime, filesize):
     """
     Use fio to test all devices on a host.
+
+    \b
+    BLOCK_DEVICE: The path to the block device(s) to test (may be specified many times).
     """
+
+    # Show help and quit if no block devices are specified.
+    if len(block_device) == 0:
+        click.echo(ctx.get_help())
+        ctx.exit()
+
     fio_exe = is_exe("fio")
-    run_single_host(fio_exe, block_devices, cleanup, outdir, bs, mode, runtime, filesize)
+
+    run_single_host(fio_exe, block_device, cleanup, outdir, bs, mode, runtime, filesize)
 
 @cli.group()
 @click.pass_context
@@ -200,7 +210,7 @@ def sendfile_server_start(ctx):
 @send_file.command('client')
 @click.argument('iperf_server',
                 type=str)
-@click.argument('device',
+@click.argument('block_device',
                 type=click.Path(exists=True, resolve_path=True),
                 nargs=-1)
 @click.option('-p', '--port_start',
@@ -222,18 +232,25 @@ def sendfile_server_start(ctx):
               type=int,
               help="Network line rate in Gbit" )
 @click.pass_context
-def sendfile_client(ctx, iperf_server, device, port_start, cleanup, outdir, runtime, network_line_rate):
+def sendfile_client(ctx, iperf_server, block_device, port_start, cleanup, outdir, runtime, network_line_rate):
     """Plot the aggregated network read bandwidth of a set
     of block devices using iperf3.
 
     \b
-    IPERF_SERVER: Machine running iperf3 in server mode. to start
+    IPERF_SERVER: Machine running iperf3 in server mode. To start
     iperf3 servers on another machine use:
     ceph-perftest sendfile server start
     
 
-    DEVICE: Path to a block device
+    BLOCK_DEVICE: The path to the block device(s) to test (may be specified many times).
     """
+    
+    # Show help and quit if no block devices are specified.
+    if len(block_device) == 0:
+        click.echo(ctx.get_help())
+        ctx.exit()
+    
     iperf_exe = is_exe("iperf3")
-    run_sendfile_client(iperf_exe, iperf_server, device, port_start, cleanup, outdir, runtime, network_line_rate)
+    
+    run_sendfile_client(iperf_exe, iperf_server, block_device, port_start, cleanup, outdir, runtime, network_line_rate)
 
