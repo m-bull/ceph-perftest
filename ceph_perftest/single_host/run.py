@@ -133,6 +133,8 @@ def run_fio(fio_exe, input_devices, cleanup, outdir, bs, mode, runtime, filesize
             _mode = mode
             if _mode == 'randread':
                 _mode = 'read'
+            elif _mode == 'randwrite':
+                _mode = 'write'
             dev_data = [i[_mode] for i in data['jobs'] if i['jobname'] == device_name][0]
             count_output.update(
                     {

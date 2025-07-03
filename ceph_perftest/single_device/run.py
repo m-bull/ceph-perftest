@@ -98,6 +98,8 @@ def run_fio(fio_exe, device, max_numjobs, cleanup, outdir, bs, mode, runtime, fi
         _mode = mode
         if _mode == 'randread':
             _mode = 'read'
+        elif _mode == 'randwrite':
+            _mode = 'write'
         jobs = [i[mode] for i in data['jobs']]
 
         if cleanup:
