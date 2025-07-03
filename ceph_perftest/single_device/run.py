@@ -95,8 +95,9 @@ def run_fio(fio_exe, device, max_numjobs, cleanup, outdir, bs, mode, runtime, fi
         )
         
         data = json.load(f)
-
-
+        _mode = mode
+        if _mode == 'randread':
+            _mode = 'read'
         jobs = [i[mode] for i in data['jobs']]
 
         if cleanup:
