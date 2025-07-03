@@ -130,7 +130,10 @@ def run_fio(fio_exe, input_devices, cleanup, outdir, bs, mode, runtime, filesize
                 device=device
                 )
             )
-            dev_data = [i[mode] for i in data['jobs'] if i['jobname'] == device_name][0]
+            _mode = mode
+            if _mode == 'randread':
+                _mode = 'read'
+            dev_data = [i[_mode] for i in data['jobs'] if i['jobname'] == device_name][0]
             count_output.update(
                     {
                         device: {
